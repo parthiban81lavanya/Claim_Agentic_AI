@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  insurance-ai:
+    build: .
+    container_name: insurance_ai_app
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=production

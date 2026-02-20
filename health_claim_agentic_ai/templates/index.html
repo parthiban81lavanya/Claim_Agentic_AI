@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Health Insurance Claim</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        input, select { margin: 5px; padding: 6px; width: 250px; }
+        button { padding: 10px 20px; }
+    </style>
+</head>
+<body>
+
+<h2>Health Insurance Claim Submission</h2>
+
+<form action="/submit_claim" method="POST">
+
+    <label>Total Claim Amount</label><br>
+    <input type="number" name="total_claim_amount" required><br>
+
+    <label>Annual Premium</label><br>
+    <input type="number" name="policy_annual_premium" required><br>
+
+    <label>Insured Age</label><br>
+    <input type="number" name="insured_age" required><br>
+
+    <label>Incident Severity</label><br>
+    <select name="incident_severity">
+        <option value="1">Minor</option>
+        <option value="2">Moderate</option>
+        <option value="3">Severe</option>
+        <option value="4">Critical</option>
+    </select><br><br>
+
+    <button type="submit">Submit Claim</button>
+
+</form>
+
+</body>
+</html>

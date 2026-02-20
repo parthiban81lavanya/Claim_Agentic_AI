@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin – Claim Review</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        input, button { padding: 6px; margin: 5px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<!-- <h2>Admin Login</h2>
+
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+
+<hr> -->
+
+<h2>Claims Requiring Human Approval</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Claim ID</th>
+            <th>Amount</th>
+            <th>Fraud Score</th>
+            <th>Decision</th>
+        </tr>
+    </thead>
+    <tbody id="claims"></tbody>
+</table>
+
+<script>
+let token = "";
+
+// // function login() {
+// //     fetch("/admin/login", {
+// //         method: "POST",
+// //         headers: { "Content-Type": "application/json" },
+// //         body: JSON.stringify({
+// //             username: document.getElementById("username").value,
+// //             password: document.getElementById("password").value
+// //         })
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//         token = data.access_token;
+//         loadClaims();
+//     });
+// }
+
+function loadClaims() {
+    fetch("/admin/review-claims", {
+        headers: { "Authorization": token }
+    })
+    .then(res => res.json())
+    .then(data => {
+        let rows = "";
+        data.forEach(c => {
+            rows += `
+                <tr>
+                    <td>${c.id}</td>
+                    <td>${c.amount}</td>
+                    <td>${c.fraud_score}</td>
+                    <td>
+                        <button onclick="decide(${c.id}, 'APPROVE')">Approve</button>
+                        <button onclick="decide(${c.id}, 'REJECT')">Reject</button>
+                    </td>
+                </tr>
+            `;
+        });
+        document.getElementById("claims").innerHTML = rows;
+    });
+}
+
+function decide(claimId, decision) {
+    fetch("/admin/approve", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token
+        },
+        body: JSON.stringify({
+            claim_id: claimId,
+            admin_id: 1,
+            decision: decision,
+            comments: "Reviewed by admin"
+        })
+    })
+    .then(() => loadClaims());
+}
+</script>
+
+</body>
+</html>

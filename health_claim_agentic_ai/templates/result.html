@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Claim Result</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        .box {
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+        }
+        .approve { background-color: #d4edda; }
+        .reject { background-color: #f8d7da; }
+        .review { background-color: #fff3cd; }
+    </style>
+</head>
+<body>
+
+<h2>Claim Processing Result</h2>
+
+<div class="box 
+{% if claim.status == 'APPROVE' %}approve
+{% elif claim.status == 'REJECT' %}reject
+{% else %}review{% endif %}">
+    
+    <p><b>Fraud Score:</b> {{ claim.fraud_score }}</p>
+    <p><b>AI Decision:</b> {{ claim.ai_decision }}</p>
+    <p><b>Status:</b> {{ claim.status }}</p>
+
+    {% if claim.status == "REVIEW" %}
+        <p><b>⚠ This claim requires human approval.</b></p>
+        <p>Please wait for admin review.</p>
+    {% endif %}
+</div>
+
+<br>
+<a href="/">Submit another claim</a>
+
+</body>
+</html>
