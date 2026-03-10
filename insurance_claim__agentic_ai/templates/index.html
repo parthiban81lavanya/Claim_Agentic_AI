@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Claim Fraud Detection</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            width: 450px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #1e293b;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .admin-link {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .admin-link a {
+            text-decoration: none;
+            font-size: 13px;
+            color: gray;
+        }
+
+        .admin-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Insurance Claim Form</h2>
+
+    <form method="POST" action="{{ url_for('submit_claim') }}">
+
+        <label>Total Claim Amount</label>
+        <input type="number" step="0.01" name="total_claim_amount" required>
+
+        <label>Insured Age</label>
+        <input type="number" name="insured_age" required>
+
+        <label>Policy Annual Premium</label>
+        <input type="number" step="0.01" name="policy_annual_premium" required>
+
+        <label>Incident Severity (1-5)</label>
+        <input type="number" min="1" max="5" name="incident_severity" required>
+
+        <label>Policy Age (Years)</label>
+        <input type="number" name="policy_age_years" required>
+
+        <label>Previous Claims Count</label>
+        <input type="number" name="previous_claims_count" required>
+
+        <label>Hospital Risk Score (0-1)</label>
+        <input type="number" step="0.01" min="0" max="1" name="hospital_risk_score" required>
+
+        <label>Is Emergency?</label>
+        <select name="is_emergency" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+
+        <button type="submit">Submit Claim</button>
+
+    </form>
+
+    <div class="admin-link">
+        <a href="{{ url_for('login') }}">Admin Login</a>
+    </div>
+
+</div>
+
+</body>
+</html>

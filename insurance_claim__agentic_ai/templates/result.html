@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Claim Result</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            width: 450px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+        }
+
+        .probability {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .progress-container {
+            background-color: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 20px;
+            margin-bottom: 25px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            text-align: center;
+            color: white;
+            font-size: 12px;
+            line-height: 20px;
+        }
+
+        .approved {
+            background-color: #22c55e;
+        }
+
+        .rejected {
+            background-color: #ef4444;
+        }
+
+        .review {
+            background-color: #f59e0b;
+        }
+
+        .decision {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .reason {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .buttons {
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .home-btn {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .home-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .admin-btn {
+            background-color: #374151;
+            color: white;
+        }
+
+        .admin-btn:hover {
+            background-color: #111827;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Claim Evaluation Result</h2>
+
+    <div class="probability">
+        Fraud Probability: <strong>{{ "%.2f"|format(fraud_prob) }}</strong>
+    </div>
+
+    {% set percent = (fraud_prob * 100)|round(0) %}
+
+    <div class="progress-container">
+        {% if final_decision == "Approved" %}
+            <div class="progress-bar approved" style="width: {{ percent }}%;">
+                {{ percent }}%
+            </div>
+        {% elif final_decision == "Rejected" %}
+            <div class="progress-bar rejected" style="width: {{ percent }}%;">
+                {{ percent }}%
+            </div>
+        {% else %}
+            <div class="progress-bar review" style="width: {{ percent }}%;">
+                {{ percent }}%
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="decision">
+        Final Decision: {{ final_decision }}
+    </div>
+
+    {% if rejected_reason %}
+        <div class="reason">
+            Reason: {{ rejected_reason }}
+        </div>
+    {% endif %}
+
+    <div class="buttons">
+        <a href="{{ url_for('home') }}">
+            <button class="btn home-btn">Submit Another Claim</button>
+        </a>
+
+        <a href="{{ url_for('login') }}">
+            <button class="btn admin-btn">Admin Dashboard</button>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

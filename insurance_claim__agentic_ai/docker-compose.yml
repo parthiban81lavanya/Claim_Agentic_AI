@@ -1,0 +1,59 @@
+# version: "3.9"
+
+# services:
+
+#   postgres:
+#     image: postgres:14
+#     container_name: claims_postgres
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: password
+#       POSTGRES_DB: claims_db
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+
+#   insurance_ai:
+#     build: .
+#     container_name: insurance_ai_app
+#     depends_on:
+#       - postgres
+#     ports:
+#       - "5000:5000"
+#     environment:
+#       DATABASE_URL: postgresql+psycopg2://postgres:password@postgres:5432/claims_db
+#     volumes:
+#       - .:/app
+
+# volumes:
+#   postgres_data:
+
+version: "3.8"
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - JWT_SECRET=supersecretkey
+      - DATABASE_URL=postgresql://postgres:password@db:5432/claims_db
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: claims_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
